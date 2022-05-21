@@ -1,0 +1,12 @@
+{
+    "name": "Joke Of The Day",
+    "version": "1.0",
+    "description": "Have a laugh with a joke of the day.",
+    "chrome_url_overrides" : {
+        "newtab": "newtab.html"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "manifest_version": 3
+}
