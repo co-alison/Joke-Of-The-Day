@@ -1,21 +1,23 @@
 // listen for messages
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
 
+    let endpoint = 'https://api.jokes.one/jod';
+
     if (msg.name == "fetchJoke") {
         
         // call api
-        fetch('https://api.jokes.one/jod').then(function(res) {
+        fetch(endpoint).then((res) => {
             // wait for response
             if (res.status !== 200) {
-                response({title: 'Error', text: 'There was a problem loading the joke of the day.'})
+                response({text: 'There was a problem loading the joke of the day.'})
                 return;
             }
-            res.json().then(function(data) {
+            res.json().then((data) => {
                 // send response
-                response({title: data.contents.jokes[0].joke.title, text: data.contents.jokes[0].joke.text})
+                response({text: data.contents.jokes[0].joke.text})
             });
-        }).catch(function(err) {
-            response({title: 'Error', text: 'There was a problem loading the joke of the day.'})
+        }).catch((err) => {
+            response({text: 'There was a problem loading the joke of the day.'})
         });
 
     }
@@ -23,45 +25,37 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     return true;
 
 })
-// const callJokeAPI = async () => {
-//     let jokeData = await fetch('https://api.jokes.one/jod');
-//     let jokeJson = await jokeData.json();
-//     return jokeJson;
-// }
 
-// const getJokeText = async() => {
-//     let jsonData = await callJokeAPI();
-//     let text = jsonData.contents.jokes[0].joke.text;
-//     console.log(text);
-//     return text;
-// }
+chrome.runtime.onMessage.addListener((msg, sender, response) => {
 
-// const getJokeTitle = async() => {
-//     let jsonData = await callJokeAPI();
-//     let title = jsonData.contents.jokes[0].joke.title;
-//     console.log(title);
-//     return title;
-// }
+    if (msg.name == "fetchImage") {
+        let client_id = 'Moc4I9WbqzX8MUX3SLP23VdbWaq-t35UZ0bj_4lqv9U';
+        let endpoint = `https://api.unsplash.com/photos/random/?client_id=${client_id}&orientation=landscape`;
 
-// function callJokeAPI() {
-//     return fetch('https://api.jokes.one/jod')
-//     .then(
-//         function(response) {
-//                 if (response.status !== 200) {
-//                     console.log('Error. Status Code: ' + response.status);
-//                     return;
-//                 }
+        // call api
+        fetch(endpoint).then((res) => {
+            // wait for response
+            if (res.status !== 200) {
+                console.log('Error. There was a problem with loading the image.');
+                console.log('Status: ' + res.status);
+                return;
+            }
+            res.json().then((data) => {
+                console.log(data);
+                let imageElementSrc = data.urls.regular;
+                let imageLinkAttribute = data.links.html;
+                let creatorInnerText = data.user.name;
+                let createrLinkAttribute = data.user.portfolio_url;
+                response({imageSrc: imageElementSrc, imageLink: imageLinkAttribute, creatorText: creatorInnerText, creatorLink: createrLinkAttribute })
+            });
+        }).catch((err) => {
+            console.log("Error: " + err)
+            return;
+        });
+            
+    }
+    
+    return true;
 
-//                 // examine text in response
-//                 return response.json().then(function(data) {
-//                     // console.log(data.contents.jokes[0].joke.text);
-//                     // jokeText = data.contents.jokes[0].joke.text;
-//                     // jokeTitle = data.contents.jokes[0].joke.title;
-//                     return data;
-//                 });
-//             }
-//         )
-//     .catch(function(err) {
-//         console.log('Fetch Error:-S', err);
-//     });
-// }
+
+})

@@ -5,33 +5,58 @@
         <title>Joke Of The Day</title>
         <style>
             body,html {
-                background-color: grey;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 min-height: 100%;
             }
-            section {
+            #text {
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;
+                font-size: 3em;
             }
-            section h1 {
-                font-size: 15em;
-                margin: 0;
-                padding: 0;
+            #allText {
+                text-align: center;
+                color: white;
             }
-            section p {
-                font-size: 1.5em;
+            #bg {
+                position: fixed;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                z-index: -1;
+            } 
+            img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+                min-width: 50%;
+                min-height: 50%;
+                z-index: -1;
+                filter: brightness(75%);
+            }
+            a {
+                color: lightblue;
             }
         </style>
     </head>
     <body>
-        <section>
-            <h1>Word</h1>
-            <p>Word description...</p>
-        </section>
+        <div id="bg">
+            <a id="imageLink" href="#">
+                <img alt="" id="unsplashImage"/>
+            </a>
+        </div>
+        <div id="allText">
+            <p id="text">Joke text...</p>
+            <p class="imageDetails">Photo by <a id="creator" href="#">NAME</a> on <a href = "https://www.unsplash.com">Unsplash</a></p>   
+        </div>         
         <script src="script.js"></script>
+        
     </body>
 </html>
