@@ -1,7 +1,22 @@
+let endpoint = 'https://api.jokes.one/jod';
+
 // listen for messages
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
 
-    let endpoint = 'https://api.jokes.one/jod';
+    if (msg.name == "jod") {
+        endpoint = 'https://api.jokes.one/jod';
+    }
+    if (msg.name == "animal") {
+        endpoint = 'https://api.jokes.one/jod?category=animal';
+    }
+    if (msg.name == "blonde") {
+        endpoint = 'https://api.jokes.one/jod?category=blonde';
+    }
+    if (msg.name == "knock-knock") {
+        endpoint = 'https://api.jokes.one/jod?category=knock-knock';
+    }
+
+    console.log(endpoint);
 
     if (msg.name == "fetchJoke") {
         
@@ -22,12 +37,6 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 
     }
 
-    return true;
-
-})
-
-chrome.runtime.onMessage.addListener((msg, sender, response) => {
-
     if (msg.name == "fetchImage") {
         let client_id = 'Moc4I9WbqzX8MUX3SLP23VdbWaq-t35UZ0bj_4lqv9U';
         let endpoint = `https://api.unsplash.com/photos/random/?client_id=${client_id}&orientation=landscape`;
@@ -41,7 +50,6 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
                 return;
             }
             res.json().then((data) => {
-                console.log(data);
                 let imageElementSrc = data.urls.regular;
                 let imageLinkAttribute = data.links.html;
                 let creatorInnerText = data.user.name;
@@ -54,8 +62,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
         });
             
     }
-    
+
     return true;
 
-
-})
+}); 

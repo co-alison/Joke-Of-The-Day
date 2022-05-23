@@ -8,7 +8,7 @@ chrome.runtime.sendMessage({name: "fetchJoke"}, (response) => {
     document.querySelector('p').innerHTML=response.text;
 })
 
-// send message to background for imagee
+// send message to background for image
 chrome.runtime.sendMessage({name: "fetchImage"}, (response) => {
     // wait for response
 
