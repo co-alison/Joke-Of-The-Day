@@ -2,7 +2,7 @@
 function save_options() {
     let type = document.getElementById('type').value;
     let id = document.getElementById('id').value;
-    if (!isNaN(id) && id.length == 7) {
+    if (!isNaN(id) && id.length > 6) {
         chrome.runtime.sendMessage({name: "id" + id});
         document.getElementById('id-status').textContent = '';
     } else if (id.length == 0) {
