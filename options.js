@@ -1,8 +1,15 @@
 // save options to chrome.storage
 function save_options() {
-    var type = document.getElementById('type').value;
-    console.log(type);
-
+    let type = document.getElementById('type').value;
+    let id = document.getElementById('id').value;
+    if (!isNaN(id) && id.length == 7) {
+        chrome.runtime.sendMessage({name: "id" + id});
+        document.getElementById('id-status').textContent = '';
+    } else if (id.length == 0) {
+        document.getElementById('id-status').textContent = '';
+    } else {
+        document.getElementById('id-status').textContent = 'Invalid ID';
+    }
     switch(type) {
         default:
             chrome.runtime.sendMessage({name: "jod"});
@@ -21,9 +28,11 @@ function save_options() {
         jokeType: type
     }, () => {
         // update status to let user know options were saved
-        var status = document.getElementById('status');
-        status.textContent = 'Options saved.';
-        console.log('Saved.');
+        let status = document.getElementById('options-status');
+        if (document.getElementById('id-status').textContent !== 'Invalid ID') {
+            status.textContent = 'Options saved.';
+            console.log('Saved.');
+        }
         setTimeout(() => {
             status.textContent = '';
         }, 750);

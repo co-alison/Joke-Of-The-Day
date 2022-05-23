@@ -1,8 +1,9 @@
 let endpoint = 'https://api.jokes.one/jod';
+let collection_param = '';
 
 // listen for messages
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
-
+    
     if (msg.name == "jod") {
         endpoint = 'https://api.jokes.one/jod';
     }
@@ -37,12 +38,18 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 
     }
 
+    if (msg.name.startsWith("id")) {
+        let id = msg.name.slice(2);
+        collection_param = "&collections=" + id;
+        console.log(collection_param);
+    }
+
     if (msg.name == "fetchImage") {
         let client_id = 'Moc4I9WbqzX8MUX3SLP23VdbWaq-t35UZ0bj_4lqv9U';
-        let endpoint = `https://api.unsplash.com/photos/random/?client_id=${client_id}&orientation=landscape`;
+        let unsplash_endpoint = `https://api.unsplash.com/photos/random/?client_id=${client_id}&orientation=landscape${collection_param}`;
 
         // call api
-        fetch(endpoint).then((res) => {
+        fetch(unsplash_endpoint).then((res) => {
             // wait for response
             if (res.status !== 200) {
                 console.log('Error. There was a problem with loading the image.');
