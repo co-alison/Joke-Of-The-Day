@@ -22,5 +22,5 @@ chrome.runtime.sendMessage({name: "fetchImage"}, (response) => {
     imageElement.src = response.imageSrc;
     imageLink.setAttribute("href", response.imageLink);
     creator.innerText = response.creatorText;
-    creator.setAttribute = response.creatorLink;
+    creator.setAttribute("href", response.creatorLink);
 })

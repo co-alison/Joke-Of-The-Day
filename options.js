@@ -2,7 +2,8 @@
 function save_options() {
     let type = document.getElementById('type').value;
     let id = document.getElementById('id').value;
-    if (!isNaN(id) && id.length > 6) {
+    
+    if (!isNaN(id) && id.length >= 6) {
         chrome.runtime.sendMessage({name: "id" + id});
         document.getElementById('id-status').textContent = '';
     } else if (id.length == 0) {
@@ -25,7 +26,8 @@ function save_options() {
             break;
     }
     chrome.storage.sync.set({
-        jokeType: type
+        jokeType: type,
+        collectionID: id
     }, () => {
         // update status to let user know options were saved
         let status = document.getElementById('options-status');
@@ -41,11 +43,13 @@ function save_options() {
 
 // restores select box using the preferences stored in chrome.storage
 function restore_options() {
-    // use default value type = 'Joke Of The Day'
+    // use default value type = 'Joke Of The Day', collectionID = ''
     chrome.storage.sync.get({
-        jokeType: 'Joke Of The Day'
+        jokeType: 'Joke Of The Day',
+        collectionID: ''
     }, (items) => {
         document.getElementById('type').value = items.jokeType;
+        document.getElementById('id').value = items.collectionID;
     });
 }
 
